@@ -24,7 +24,10 @@ jobs:
       - name: Update file and push
         run: |
           CURRENT_DATE=$(date +"%Y-%m-%d %H:%M:%S")
-          echo "Update: $CURRENT_DATE" >> daily_record.txt
+          echo "Scheduled run at: $CURRENT_DATE" >> daily_record.txt
+          echo "Run type: ${{ github.event_name }}" >> daily_record.txt
+          echo "Run ID: ${{ github.run_id }}" >> daily_record.txt
+          echo "---" >> daily_record.txt
           git add daily_record.txt
           git commit -m "Automated update: $CURRENT_DATE"
           git push
