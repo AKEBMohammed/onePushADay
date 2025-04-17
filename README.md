@@ -20,7 +20,19 @@ A GitHub Actions workflow (`.github/workflows/scheduled-push.yml`) is scheduled 
    git remote add origin YOUR_REPOSITORY_URL
    git push -u origin main
    ```
-3. The GitHub Actions workflow will automatically be detected and start running
+3. **Enable workflow permissions** in your repository:
+   - Go to your repository → Settings → Actions → General
+   - Under "Workflow permissions", select "Read and write permissions"
+   - Save changes
+   
+   OR
+   
+   **Set up a Personal Access Token**:
+   - Go to GitHub → Settings → Developer settings → Personal access tokens → Tokens (classic)
+   - Generate a new token with "repo" scope
+   - Add this token as a repository secret named `PAT` under your repository's Settings → Secrets and variables → Actions
+
+4. The GitHub Actions workflow will automatically be detected and start running
 
 ## GitHub Actions Schedule
 
