@@ -1,19 +1,18 @@
-# One Push A Day
+# Automated Git Pushes
 
-This repository is configured to make multiple pushes per day automatically. It uses a cron job to ensure regular commits, which helps maintain an active contribution history.
+This repository is configured to make multiple pushes per day automatically using GitHub Actions, without requiring your PC to be running 24/7.
 
 ## How it works
 
-A shell script (`one_push_a_day.sh`) is scheduled to run every 6 hours through cron. The script:
-1. Creates or updates a file called `daily_record.txt` with a timestamp
+A GitHub Actions workflow (`.github/workflows/scheduled-push.yml`) is scheduled to run every 6 hours. The workflow:
+1. Updates a file called `daily_record.txt` with a timestamp
 2. Commits this change to the repository
-3. Pushes the commit to the remote repository
+3. Pushes the commit to the repository
 
 ## Setup Instructions
 
-1. Clone this repository to your local machine
-2. Make sure the shell script has execution permissions: `chmod +x one_push_a_day.sh`
-3. Initialize git repository (if not already initialized):
+1. Create a GitHub repository if you don't already have one
+2. Push this repository to GitHub:
    ```
    git init
    git add .
@@ -21,27 +20,29 @@ A shell script (`one_push_a_day.sh`) is scheduled to run every 6 hours through c
    git remote add origin YOUR_REPOSITORY_URL
    git push -u origin main
    ```
-4. Set up a cron job to run the script daily (see below)
+3. The GitHub Actions workflow will automatically be detected and start running
 
-## Cron Job Setup
+## GitHub Actions Schedule
 
-To schedule the automatic push, add a cron job by running:
-```
-crontab -e
-```
+The workflow is configured to run:
+- Every 6 hours (at 0:00, 6:00, 12:00, and 18:00)
+- The schedule is configured in the `.github/workflows/scheduled-push.yml` file
+- You can also manually trigger the workflow from the "Actions" tab on GitHub
 
-Then add a line like this to run the script every 6 hours (at 0:00, 6:00, 12:00, and 18:00):
-```
-0 */6 * * * /media/medaly/A4B4A33BB4A30F3C/TP/AQL/onePushADay/one_push_a_day.sh >> /media/medaly/A4B4A33BB4A30F3C/TP/AQL/onePushADay/cron.log 2>&1
-```
-
-This will also log the output to `cron.log` for troubleshooting.
-
-### Understanding the Cron Schedule
+### Understanding the GitHub Actions Schedule
 
 The cron schedule `0 */6 * * *` means:
 - `0` - At minute 0 (the top of the hour)
 - `*/6` - Every 6th hour
 - `* * *` - Every day, every month, every day of the week
 
-This ensures your repository gets at least 4 pushes per day at regular intervals.
+This ensures your repository gets at least 4 pushes per day at regular intervals, without needing to keep your PC running.
+
+## Alternative Free Options
+
+If you prefer not to use GitHub, other free options include:
+
+1. GitLab CI/CD - Similar to GitHub Actions but for GitLab repositories
+2. Oracle Cloud Free Tier - Offers always-free compute instances
+3. Railway.app - Offers limited free hosting with scheduled jobs
+4. Render.com - Provides limited free background workers

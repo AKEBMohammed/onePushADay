@@ -1,0 +1,27 @@
+name: Scheduled Push
+
+on:
+  schedule:
+    # Runs every 6 hours
+    - cron: '0 */6 * * *'
+  workflow_dispatch: # Allows manual triggering as well
+
+jobs:
+  update-repo:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+        
+      - name: Setup Git
+        run: |
+          git config --global user.name "GitHub Actions Bot"
+          git config --global user.email "actions@github.com"
+          
+      - name: Update file and push
+        run: |
+          CURRENT_DATE=$(date +"%Y-%m-%d %H:%M:%S")
+          echo "Update: $CURRENT_DATE" >> daily_record.txt
+          git add daily_record.txt
+          git commit -m "Automated update: $CURRENT_DATE"
+          git push
